@@ -30,4 +30,29 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const conn = await pool.getConnection();
+    const rows = await conn.query('SELECT * FROM garantias');
+    conn.release();
+
+    // Normalizar datos para la app
+    const garantias = rows.map(row => ({
+      id: row.id,
+      producto: row.producto,
+      tienda: 'Desconocida', // Si aún no guardas esta info
+      fechaCompra: row.fecha_compra,
+      duracion: row.duracion_meses,
+      comentario: row.imagen_url || ''
+    }));
+
+    res.json(garantias);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener garantías' });
+  }
+});
+
+
+
 module.exports = router;

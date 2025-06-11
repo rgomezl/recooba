@@ -1,0 +1,72 @@
+
+RESUMEN DE PROGRESO – CONFIGURACIÓN BACKEND Y CONEXIÓN
+
+1. Instalación y configuración de entorno backend
+- Instalación de Node.js, MariaDB y creación de entorno backend limpio
+- Comando ejecutado:
+  mkdir recooba-backend
+  cd recooba-backend
+  npm init -y
+  npm install express mariadb cors dotenv
+- Archivo .env configurado con credenciales:
+
+  DB_HOST=localhost
+  DB_USER=root
+  DB_PASSWORD=tu_clave
+  DB_NAME=recooba
+  DB_PORT=3306
+  PORT=3000
+
+2. Creación de base de datos MariaDB
+- Conexión a consola:
+  mysql -u root -p
+- Comando ejecutado:
+  CREATE DATABASE recooba;
+- Tablas creadas:
+
+  Tabla usuarios:
+  CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+
+  Tabla garantias:
+  CREATE TABLE garantias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    producto VARCHAR(100) NOT NULL,
+    fecha_compra DATE NOT NULL,
+    duracion_meses INT NOT NULL,
+    imagen_url TEXT,
+    creado_en DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+  );
+
+3. Implementación del backend Express
+- Estructura organizada:
+  - index.js
+  - routes/usuarios.js
+  - routes/auth.js
+  - routes/garantias.js
+  - db/pool.js
+
+4. Registro de usuario con contraseña cifrada (bcrypt)
+- Instalación:
+  npm install bcrypt
+- Uso en registro:
+  const hashedPassword = await bcrypt.hash(password, 10);
+- Uso en login:
+  const passwordValida = await bcrypt.compare(password, usuario.password);
+
+5. Rutas implementadas y funcionando
+- POST /usuarios → registro
+- POST /login → login con validación segura
+- POST /garantias → registrar garantías
+- GET /garantias?usuario_id=X → listar garantías por usuario
+
+6. Pruebas funcionales con Postman
+- Todas las rutas fueron probadas correctamente
+- Confirmación de inserciones en base de datos y respuestas correctas

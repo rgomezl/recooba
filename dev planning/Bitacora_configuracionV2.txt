@@ -1,0 +1,69 @@
+Bitácora de Configuración y Desarrollo de la App Recooba
+Alumno: Renzo Gómez
+Proyecto: App móvil para gestión de garantías – Recooba
+Tecnología base: React Native + Backend Express + MariaDB
+Fecha de generación: 2025-06-11 05:48:16
+
+1. Instalación y preparación del entorno
+----------------------------------------
+Herramientas instaladas:
+- Node.js y npm
+- Java JDK (versión 17 para compatibilidad con Android Gradle Plugin)
+- Android Studio (solo para SDKs y emulador)
+- Visual Studio Code
+- React Native CLI
+
+Configuraciones del sistema:
+- Variable JAVA_HOME configurada correctamente hacia JDK 17
+- Variable ANDROID_HOME apuntando al SDK de Android
+- PATH actualizado con platform-tools y emulator
+
+2. Creación del proyecto React Native
+-------------------------------------
+- Comando usado: npx react-native init recoobaApp
+- Ejecución en dispositivo físico (Motorola Edge 50 Fusion)
+- Depuración USB habilitada y conexión estable en la misma red local
+
+3. Estructura base de navegación
+--------------------------------
+- Instalación de React Navigation y dependencias nativas:
+  - @react-navigation/native
+  - @react-navigation/native-stack
+  - expo install react-native-screens react-native-safe-area-context ...
+- Creación del archivo AppNavigator.js
+- Pantallas creadas:
+  - InicioScreen
+  - GarantiasScreen
+  - AgregarGarantiaScreen
+  - ListadoGarantiasScreen
+- App.tsx ajustado para incluir navegación
+
+4. Backend Express y base de datos
+----------------------------------
+- Express.js y MariaDB configurados
+- pool.js configurado con conexión a base de datos
+- Rutas:
+  - POST /garantias
+  - GET /garantias
+- Normalización de la salida JSON para ListadoGarantiasScreen
+
+5. Conexión con la API desde la app
+-----------------------------------
+- fetch hacia http://192.168.1.30:3000/garantias
+- FlatList configurado para mostrar tarjetas de garantías
+- Corrección en nombres de campos esperados
+
+6. Verificación final
+---------------------
+- App ejecutada en teléfono físico
+- Navegación funcional
+- Datos cargados desde base de datos
+- Visualización exitosa de las garantías
+
+Estado actual del proyecto
+--------------------------
+- ✅ App base funcionando
+- ✅ Navegación operativa
+- ✅ Backend conectado y respondiendo
+- ✅ Garantías visibles en la app
+- 🕐 Pendiente: agregar edición, eliminación, carga de imágenes
