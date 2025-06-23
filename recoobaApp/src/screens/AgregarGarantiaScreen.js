@@ -15,7 +15,7 @@ const AgregarGarantiaScreen = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.1.30:3000/garantias', {
+      const response = await fetch('http://192.168.1.16:3000/garantias', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

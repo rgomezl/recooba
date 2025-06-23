@@ -11,7 +11,7 @@ const ListadoGarantiasScreen = () => {
 
   const obtenerGarantias = async () => {
     try {
-      const response = await fetch('http://192.168.1.30:3000/garantias');
+      const response = await fetch('http://192.168.1.16:3000/garantias');
       const data = await response.json();
       setGarantias(data);
     } catch (error) {

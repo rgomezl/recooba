@@ -1,0 +1,6 @@
+Pre requisitos
+Instalacion de bcrypy en ruta de trabajo
+npm install bcrypt - 
+
+Instalacion de npm
+npm install -
