@@ -18,6 +18,7 @@ const AppNavigator = () => {
 
   useEffect(() => {
     const verificarSesion = async () => {
+      const usuario_id = await AsyncStorage.getItem('usuario_id');
       setUsuarioLogueado(usuario_id);
       setCargando(false);
     };

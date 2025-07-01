@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation, route }) => {
@@ -13,41 +15,37 @@ const LoginScreen = ({ navigation, route }) => {
     }
 
     try {
-      console.log('🟡 Enviando datos a backend...');
       const response = await fetch('http://192.168.1.16:3000/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: correo, password: contraseña }),
       });
 
-      console.log('🟡 Código de respuesta:', response.status);
       const data = await response.json();
-      console.log('🔵 Respuesta parseada:', data);
 
-      if (response.ok && data.usuario && data.usuario.id) {
+      if (response.ok && data.usuario?.id) {
         await AsyncStorage.setItem('usuario_id', data.usuario.id.toString());
-        console.log('✅ Login exitoso. Redirigiendo...');
-
-        // Notificar a AppNavigator para recargar
         const onLoginExitoso = route.params?.onLoginExitoso;
         if (onLoginExitoso) onLoginExitoso();
       } else {
-        console.warn('⚠️ Login fallido. Respuesta incompleta:', data);
         Alert.alert('Error', data.error || 'Credenciales inválidas');
       }
-
     } catch (error) {
-      console.error('❌ Error en fetch o JSON:', error);
       Alert.alert('Error', 'No se pudo conectar al servidor');
+      console.error(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+      <Image source={require('../../assets/logo.png')} style={styles.logo} />
+
+      <Text style={styles.title}>Bienvenido a Recooba</Text>
+
       <TextInput
         style={styles.input}
         placeholder="Correo"
+        placeholderTextColor="#999"
         value={correo}
         onChangeText={setCorreo}
         autoCapitalize="none"
@@ -56,25 +54,43 @@ const LoginScreen = ({ navigation, route }) => {
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
+        placeholderTextColor="#999"
         secureTextEntry
         value={contraseña}
         onChangeText={setContraseña}
       />
-      <Button title="Ingresar" onPress={iniciarSesion} />
+
+      <TouchableOpacity style={styles.button} onPress={iniciarSesion}>
+        <Text style={styles.buttonText}>Iniciar Sesión</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: 'center' },
+  container: { flex: 1, justifyContent: 'center', padding: 25, backgroundColor: '#f9f9f9' },
+  logo: { width: 100, height: 100, alignSelf: 'center', marginBottom: 30 },
+  title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', marginBottom: 30, color: '#333' },
   input: {
-    borderWidth: 1,
+    height: 50,
     borderColor: '#ccc',
-    marginBottom: 15,
-    padding: 10,
-    borderRadius: 5,
+    borderWidth: 1,
+    paddingHorizontal: 15,
+    borderRadius: 10,
     backgroundColor: '#fff',
+    marginBottom: 15,
+  },
+  button: {
+    backgroundColor: '#4267B2', // Estilo tipo Facebook
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginTop: 10
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: '600',
+    fontSize: 16
   },
 });
 
